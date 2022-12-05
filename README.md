@@ -1,27 +1,110 @@
-# Zappar for React-Three-Fiber
-## Webpack Bootstrap Project
+[![Downloads](https://img.shields.io/npm/dt/create-r3f-app.svg?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/create-r3f-app) [![Discord Shield](https://img.shields.io/discord/740090768164651008?style=flat&colorA=000000&colorB=000000&label=discord&logo=discord&logoColor=ffffff)](https://discord.gg/ZZjjNvJ)
 
-In this project you'll find an Node.js project that gets you up and running with Zappar for React-Three-Fiber.
+# :japanese_castle: React-Three-Next starter
 
-Head to the NPM package page for more information on how to build best-in-class AR experiences: [Zappar for React-Three-Fiber](https://www.npmjs.com/package/@zappar/zappar-react-three-fiber) (@zappar/zappar-react-three-fiber)
+A minimalist starter for React, React-three-fiber and Threejs.
 
-## Preview
-Scan the QR code below using your native camera app or QR code reader to view the example:
-​
-![Preview QR Code"](preview-qr-code.png)
+![](https://user-images.githubusercontent.com/2223602/192515435-a3d2c1bb-b79a-428e-92e5-f44c97a54bf7.jpg)
 
+- TTL ~ 100ms
+- First load JS ~ 79kb
+- Lighthouse score of 100 (Performance, Accessibility, Best Practices, SEO)
 
-The project has been set up to use webpack for bundling assets and code. To get started, install the project's dependencies by running the following command:
+This starter allows you to navigate seamlessly between pages with dynamic dom and/or canvas content without reloading or creating a new canvas every time.
+
+### ⚫ Demo :
+
+[![image](https://user-images.githubusercontent.com/2223602/192515587-eac9e26b-d691-4496-a614-85729764b6b0.jpg)](https://react-three-next.vercel.app/)
+
+### How to use
+
+#### Installation
+
+_Tailwind is the default style. styled-components (styled) is also available._
+
+```sh
+yarn create r3f-app next my-app
+# yarn create r3f-app <next> my-app <tailwind|styled>? -ts?
 ```
-npm install
+
+or
+
+```sh
+npx create-r3f-app next my-app
 ```
 
-During development, you can use the following command to run a `webpack server` for testing on your computer or a device on your local network:
-```
-npm run start
+### :passport_control: Typescript
+
+For typescript add the parameter `-ts` or `--typescript`:
+
+```sh
+yarn create r3f-app next my-app -ts
 ```
 
-And when you're ready to publish your site, run the following command. The resulting `dist` folder can be uploaded to ZapWorks for publishing. If you'd like to self-host your site, be sure to check out the documentation on the [Zappar for React Three Fiber](https://www.npmjs.com/package/@zappar/zappar-react-three-fiber) page.
+or
+
+```sh
+npx create-r3f-app next my-app -ts
 ```
-npm run build
+
+### :memo: Note:
+
+**Regarding the new layout system in next@13**:
+
+While the app directory is still in beta we are still investigating on the layout implementation, but for now it's more stable to use pages.
+An alternative branch will be available in the near future with the app directory architecture. It will be accessible through the starter CLI. Contribution is welcome
+[Follow the progress of layout implementation here.](https://github.com/pmndrs/react-three-next/issues/103)
+
+### :mount_fuji: Features
+
+- [x] GLSL imports
+- [x] Template for meta data and header
+- [x] Clean code using ESlint and Prettier
+- [x] VSCode debug profiles for the server, Chrome, and Firefox
+- [x] PWA Support
+
+### :bullettrain_side: Architecture
+
+Inform the nextjs page that the component is a Threejs component. For that, simply add the **canvas** property to the parent component.
+
+```jsx
+export default function Page(props) {
+  return <div>Hello !</div>
+}
+// Canvas contents go here
+// It will receive same props as Page component (from getStaticProps, etc.)
+Page.canvas = (props) => (
+  <mesh>
+    <boxGeometry />
+    <meshBasicMaterial color='hotpink' />
+  </mesh>
+)
 ```
+
+### :control_knobs: Available Scripts
+
+- `yarn dev` - Next dev
+- `yarn analyze` - Generate bundle-analyzer
+- `yarn lint` - Audit code quality
+- `yarn build` - Next build
+- `yarn start` - Next start
+- `yarn export` - Export to static HTML
+
+### ⬛ Stack
+
+- [`threejs`](https://github.com/mrdoob/three.js/) &ndash; A lightweight, 3D library with a default WebGL renderer.
+- [`@react-three/fiber`](https://github.com/pmndrs/react-three-fiber) &ndash; A React renderer for Threejs on the web and react-native.
+- [`@react-three/drei` - Optional](https://github.com/pmndrs/drei) &ndash; useful helpers for react-three-fiber
+- [`@react-three/a11y` - Optional](https://github.com/pmndrs/react-three-a11y/) &ndash; Accessibility tools for React Three Fiber
+- [`r3f-perf` - Optional](https://github.com/RenaudRohlinger/r3f-perf) &ndash; Tool to easily monitor react threejs performances.
+
+### How to contribute :
+
+```bash
+git clone https://github.com/pmndrs/react-three-next
+&& cd react-three-next && yarn install
+```
+
+### Maintainers :
+
+- [`twitter 🐈‍⬛ @onirenaud`](https://twitter.com/onirenaud)
