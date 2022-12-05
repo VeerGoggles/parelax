@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useLoader } from "@react-three/fiber";
-import { Camera, TextureLoader } from "three";
+import { Mesh, TextureLoader } from "three";
 import {
   FaceBufferGeometry,
   FaceTracker,
@@ -10,6 +10,7 @@ import {
 } from "@zappar/zappar-react-three-fiber";
 import VaporwaveScene from "./components/VaporwaveScene";
 import ParelaxCamera from "./components/ParelaxCamera";
+import { Loader } from "@zappar/zappar-react-three-fiber";
 
 function FaceMeshMaterial() {
   const faceMapTexture = useLoader(
@@ -21,6 +22,7 @@ function FaceMeshMaterial() {
 
 function App() {
   const faceTrackerGroup = useRef();
+  const envRef = useRef<Mesh>();
 
   return (
     <>
@@ -28,7 +30,9 @@ function App() {
       <ZapparCanvas>
         <ParelaxCamera userFacing userCameraMirrorMode="css" />
 
-        <VaporwaveScene trackerGroup={faceTrackerGroup} />
+        <React.Suspense fallback={null}>
+          <VaporwaveScene trackerGroup={faceTrackerGroup} />
+        </React.Suspense>
 
         <FaceTracker ref={faceTrackerGroup}>
           <mesh>
@@ -39,6 +43,8 @@ function App() {
             <FaceMeshMaterial />
           </mesh>
         </FaceTracker>
+
+        <Loader />
 
         <directionalLight position={[2.5, -8, 5]} intensity={1.5} />
       </ZapparCanvas>

@@ -1,20 +1,36 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { FaceTracker } from "@zappar/zappar-threejs";
-import { Mesh, Object3D } from "three";
+import { BackSide, Mesh, Object3D, TextureLoader } from "three";
 import { Box, PerspectiveCamera } from "@react-three/drei";
 
 type TrackerControlledGroupProps = {
   trackerGroup: React.MutableRefObject<(FaceTracker & THREE.Mesh) | undefined>;
 };
 
+function VaporWorldMaterial() {
+  const envMapTexture = useLoader(
+    TextureLoader,
+    new URL("../assets/destiny-field-bg.jpg", import.meta.url).href
+  );
+  return (
+    <meshStandardMaterial
+      transparent
+      map={envMapTexture}
+      opacity={1}
+      side={BackSide}
+    />
+  );
+}
+
 function VaporwaveScene({ trackerGroup }: TrackerControlledGroupProps) {
   const gltf = useLoader(GLTFLoader, "models/vapor/scene.gltf");
   const { camera } = useThree();
   const modelRef = useRef<Object3D>(null);
   const cameraRef = useRef<Object3D>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   let targetCameraRot = new THREE.Euler();
   let targetCameraPos = new THREE.Vector3();
@@ -41,13 +57,15 @@ function VaporwaveScene({ trackerGroup }: TrackerControlledGroupProps) {
       trackerGroup?.current.rotation.z
     );
 
+    // show the model if we have a target tracking
+    setIsVisible(targetCameraRot.z !== 0);
+
     // output section to move the camera
     // move the camera holder to mimic the user's movement
     if (modelRef?.current) {
-      modelRef.current.position.multiplyScalar(0.8);
       modelRef.current.position.set(
         modelRef.current.position.x * 0.8 - 0.2 * targetCameraPos.x,
-        modelRef.current.position.y * 0.8 - 0.2 * (targetCameraPos.y + 10),
+        modelRef.current.position.y * 0.8 - 0.2 * (targetCameraPos.y - 20),
         modelRef.current.position.z * 0.8 + 0.2 * targetCameraPos.z
       );
     }
@@ -76,12 +94,27 @@ function VaporwaveScene({ trackerGroup }: TrackerControlledGroupProps) {
 
   return (
     <object3D>
+      {
+        // TODO: Get this alternate camera working so we can just render from here
+      }
       <object3D ref={cameraRef} position={[0, 0, -40]}>
         <PerspectiveCamera makeDefault={true} far={2000} />
       </object3D>
-      <object3D ref={modelRef}>
+
+      {
+        // CITY MODEL
+      }
+      <object3D ref={modelRef} visible={isVisible}>
         <mesh position={[0, -10, 100]}>
           <primitive object={gltf.scene} />
+        </mesh>
+
+        {
+          // ENVIRONMENT SPHERE
+        }
+        <mesh>
+          <sphereGeometry args={[1000, 24, 24]} />
+          <VaporWorldMaterial />
         </mesh>
       </object3D>
     </object3D>

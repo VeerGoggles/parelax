@@ -164,6 +164,7 @@ const ParelaxCamera = forwardRef((props: Props.Camera, ref) => {
       <primitive dispose={null} object={cameraTexture} attach="background" />
       {environmentMap && (
         <primitive
+          visible={false}
           dispose={null}
           object={cameraEnvMap!.environmentMap}
           attach="environment"
