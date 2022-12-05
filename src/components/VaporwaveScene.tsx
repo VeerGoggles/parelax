@@ -32,6 +32,7 @@ function VaporwaveScene({ trackerGroup }: TrackerControlledGroupProps) {
   const cameraRef = useRef<Object3D>(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  let targetCameraQuat = new THREE.Quaternion();
   let targetCameraRot = new THREE.Euler();
   let targetCameraPos = new THREE.Vector3();
 
@@ -56,6 +57,12 @@ function VaporwaveScene({ trackerGroup }: TrackerControlledGroupProps) {
       trackerGroup?.current.rotation.y,
       trackerGroup?.current.rotation.z
     );
+    targetCameraQuat.set(
+      trackerGroup?.current.quaternion.x,
+      trackerGroup?.current.quaternion.y,
+      trackerGroup?.current.quaternion.z,
+      trackerGroup?.current.quaternion.w
+    );
 
     // show the model if we have a target tracking
     setIsVisible(targetCameraRot.z !== 0);
@@ -79,17 +86,15 @@ function VaporwaveScene({ trackerGroup }: TrackerControlledGroupProps) {
 
     // for smoothing, we'll probably end up lerping between quaternions once I get my holder squared away
     // since we shouldn't have too many issues with gimble lock in this case, we can get away with our 80-20 rule
+    // not ideal (A), but works, but gimble lock (B)
+    // TODO: transfer to moving the render camera for this world (A)
+    // TODO: convert to a quaternion transform (B)
     if (modelRef?.current)
       modelRef?.current.rotation.set(
         modelRef?.current.rotation.x * 0.8 + 0.2 * targetCameraRot.x,
         modelRef?.current.rotation.y * 0.8 + 0.2 * targetCameraRot.y,
         modelRef?.current.rotation.z * 0.8 + 0.2 * targetCameraRot.z
       );
-    // camera?.rotation.set(
-    //   camera?.rotation.x * 0.8 + 0.2 * targetCameraRot.x,
-    //   camera?.rotation.y * 0.8 + 0.2 * -targetCameraRot.y,
-    //   camera?.rotation.z * 0.8 + 0.2 * targetCameraRot.z
-    // );
   });
 
   return (
