@@ -30,9 +30,7 @@ function App() {
       <ZapparCanvas>
         <ParelaxCamera userFacing userCameraMirrorMode="css" />
 
-        <React.Suspense fallback={null}>
-          <VaporwaveScene trackerGroup={faceTrackerGroup} />
-        </React.Suspense>
+        <VaporwaveScene trackerGroup={faceTrackerGroup} />
 
         <FaceTracker ref={faceTrackerGroup}>
           <mesh>
@@ -43,8 +41,6 @@ function App() {
             <FaceMeshMaterial />
           </mesh>
         </FaceTracker>
-
-        <Loader />
 
         <directionalLight position={[2.5, -8, 5]} intensity={1.5} />
       </ZapparCanvas>

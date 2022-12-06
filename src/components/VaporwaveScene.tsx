@@ -117,7 +117,7 @@ function VaporwaveScene({ trackerGroup }: TrackerControlledGroupProps) {
         {
           // ENVIRONMENT SPHERE
         }
-        <mesh>
+        <mesh position={[0, 300, 0]}>
           <sphereGeometry args={[1000, 24, 24]} />
           <VaporWorldMaterial />
         </mesh>
