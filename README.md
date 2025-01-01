@@ -1,15 +1,8 @@
-# Zappar for React-Three-Fiber
-## Webpack Bootstrap Project
+# Parelax
+## A vision-based methodology for WebXR parelax
 
-In this project you'll find an Node.js project that gets you up and running with Zappar for React-Three-Fiber.
-
-Head to the NPM package page for more information on how to build best-in-class AR experiences: [Zappar for React-Three-Fiber](https://www.npmjs.com/package/@zappar/zappar-react-three-fiber) (@zappar/zappar-react-three-fiber)
-
-## Preview
-Scan the QR code below using your native camera app or QR code reader to view the example:
-​
-![Preview QR Code"](preview-qr-code.png)
-
+This experiment tracks the user's facial position relative to the screen, and offsets the screen accordingly.
+Numberous methodologies and scaling values are available for experimentation, such as moving the camera vs. moving and rotating it, different smoothing functions for the scale, etc
 
 The project has been set up to use webpack for bundling assets and code. To get started, install the project's dependencies by running the following command:
 ```
